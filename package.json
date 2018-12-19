@@ -1,0 +1,37 @@
+{
+  "name": "fighting-spirit",
+  "version": "1.0.0",
+  "description": "put brace, semicolon away from your code!",
+  "main": "../FightingSpirit/lib/index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha test/index.js"
+  },
+  "bin": {
+    "lost": "../FightingSpirit/lib/cli/transpiler.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gomjellie/LostTemple.git"
+  },
+  "keywords": [
+    "fighting",
+    "spirit",
+    "c",
+    "python",
+    "fight"
+  ],
+  "author": "Oh Inkyu <gomjellie@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gomjellie/FightingSpirit/issues"
+  },
+  "homepage": "https://github.com/gomjellie/FightingSpirit#readme",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "commander": "^2.19.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  }
+}
