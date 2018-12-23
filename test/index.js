@@ -5,27 +5,27 @@
 const expect = require("chai").expect;
 
 const fs = require("fs");
-const util = require('util');
+const util = require("util");
 const readFile = util.promisify(fs.readFile);
 
-describe('lost-temple', function(){
-    const lostTemple = require('../lib');
+describe("fighting-spirit", function () {
+    const fightingSpirit = require("../lib");
 
-    it('check gugu.c -> gugu.f', function(done){
+    it("check gugu.c -> gugu.cf", (done) => {
         readFile("./example/gugu.c")
-            .then(lostTemple.cat2c)
+            .then(fightingSpirit.c2f)
             .then((res) => {
-                expect(res).to.equal(String(fs.readFileSync("./example/gugu.f")));
+                expect(res).to.equal(String(fs.readFileSync("./example/gugu.cf")));
                 done();
             })
             .catch(console.error);
     });
 
-    it('check helloWorld.c -> helloWorld.f', function(done){
+    it("check helloWorld.c -> helloWorld.cf", (done) => {
         readFile("./example/helloWorld.c")
-            .then(lostTemple.cat2c)
+            .then(fightingSpirit.c2f)
             .then((res) => {
-                expect(res).to.equal(String(fs.readFileSync("./example/helloWorld.f")));
+                expect(res).to.equal(String(fs.readFileSync("./example/helloWorld.cf")));
                 done();
             })
             .catch(console.error);

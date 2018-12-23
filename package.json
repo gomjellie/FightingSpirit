@@ -7,11 +7,11 @@
     "test": "./node_modules/.bin/mocha test/index.js"
   },
   "bin": {
-    "fight": "../FightingSpirit/lib/cli/transpiler.js"
+    "fight": "./lib/cli/transpiler.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gomjellie/LostTemple.git"
+    "url": "git+https://github.com/gomjellie/FightingSpirit.git"
   },
   "keywords": [
     "fighting",
