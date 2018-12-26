@@ -11,21 +11,31 @@ const readFile = util.promisify(fs.readFile);
 describe("fighting-spirit", function () {
     const fightingSpirit = require("../lib");
 
-    it("check gugu.c -> gugu.cf", (done) => {
+    it("check gugu.c -> gugu.shorten", (done) => {
         readFile("./example/gugu.c")
-            .then(fightingSpirit.c2f)
+            .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
             .then((res) => {
-                expect(res).to.equal(String(fs.readFileSync("./example/gugu.cf")));
+                expect(res).to.equal(String(fs.readFileSync("./example/gugu.shorten")));
                 done();
             })
             .catch(console.error);
     });
 
-    it("check helloWorld.c -> helloWorld.cf", (done) => {
-        readFile("./example/helloWorld.c")
-            .then(fightingSpirit.c2f)
+    it("check guguFunction.c -> guguFunction.shorten", (done) => {
+        readFile("./example/guguFunction.c")
+            .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
             .then((res) => {
-                expect(res).to.equal(String(fs.readFileSync("./example/helloWorld.cf")));
+                expect(res).to.equal(String(fs.readFileSync("./example/guguFunction.shorten")));
+                done();
+            })
+            .catch(console.error);
+    });
+
+    it("check helloWorld.c -> helloWorld.shorten", (done) => {
+        readFile("./example/helloWorld.c")
+            .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
+            .then((res) => {
+                expect(res).to.equal(String(fs.readFileSync("./example/helloWorld.shorten")));
                 done();
             })
             .catch(console.error);
