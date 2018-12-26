@@ -10,4 +10,3 @@ void printGugu()                                                                
         for (int j = 0; j < 10; j++)                                               {
             print("%d times %d is %d \n", i, j, i * j)                             ;}}}
 
-
