@@ -40,4 +40,24 @@ describe("fighting-spirit", function () {
             })
             .catch(console.error);
     });
+
+    it("check lineComment.c -> lineComment.shorten", (done) => {
+        readFile("./example/lineComment.c")
+            .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
+            .then((res) => {
+                expect(res).to.equal(String(fs.readFileSync("./example/lineComment.shorten")));
+                done();
+            })
+            .catch(console.error);
+    });
+
+    it("check longComment.c -> longComment.shorten", (done) => {
+        readFile("./example/longComment.c")
+            .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
+            .then((res) => {
+                expect(res).to.equal(String(fs.readFileSync("./example/longComment.shorten")));
+                done();
+            })
+            .catch(console.error);
+    });
 });
