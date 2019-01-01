@@ -10,76 +10,48 @@ const readFile = util.promisify(fs.readFile);
 
 describe("fighting-spirit", function () {
     const fightingSpirit = require("../lib");
+    const shortenMap = {
+        "check double for loop": {
+            c: "./example/gugu.c",
+            shorten: "./example/gugu.shorten",
+        },
+        "check function declaration": {
+            c: "./example/guguFunction.c",
+            shorten: "./example/guguFunction.shorten",
+        },
+        "check hello World": {
+            c: "./example/helloworld.c",
+            shorten: "./example/helloWorld.shorten",
+        },
+        "check line comment": {
+            c: "./example/lineComment.c",
+            shorten: "./example/lineComment.shorten",
+        },
+        "check long comment": {
+            c: "./example/longComment.c",
+            shorten: "./example/longComment.shorten",
+        },
+        "check switch (break; in another line)": {
+            c: "./example/switch.c",
+            shorten: "./example/switch.shorten",
+        },
+        "check switch (break; in a line)": {
+            c: "./example/switchBreakInOneLine.c",
+            shorten: "./example/switchBreakInOneLine.shorten",
+        },
+    };
 
-    it("check gugu.c -> gugu.shorten", (done) => {
-        readFile("./example/gugu.c")
-            .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
-            .then((res) => {
-                expect(res).to.equal(String(fs.readFileSync("./example/gugu.shorten")));
-                done();
-            })
-            .catch(console.error);
-    });
-
-    it("check guguFunction.c -> guguFunction.shorten", (done) => {
-        readFile("./example/guguFunction.c")
-            .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
-            .then((res) => {
-                expect(res).to.equal(String(fs.readFileSync("./example/guguFunction.shorten")));
-                done();
-            })
-            .catch(console.error);
-    });
-
-    it("check helloWorld.c -> helloWorld.shorten", (done) => {
-        readFile("./example/helloWorld.c")
-            .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
-            .then((res) => {
-                expect(res).to.equal(String(fs.readFileSync("./example/helloWorld.shorten")));
-                done();
-            })
-            .catch(console.error);
-    });
-
-    it("check lineComment.c -> lineComment.shorten", (done) => {
-        readFile("./example/lineComment.c")
-            .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
-            .then((res) => {
-                expect(res).to.equal(String(fs.readFileSync("./example/lineComment.shorten")));
-                done();
-            })
-            .catch(console.error);
-    });
-
-    it("check /* */", (done) => {
-        readFile("./example/longComment.c")
-            .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
-            .then((res) => {
-                expect(res).to.equal(String(fs.readFileSync("./example/longComment.shorten")));
-                done();
-            })
-            .catch(console.error);
-    });
-
-    it("check switch (break; in other line)", (done) => {
-        readFile("./example/switch.c")
-            .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
-            .then((res) => {
-                expect(res).to.equal(String(fs.readFileSync("./example/switch.shorten")));
-                done();
-            })
-            .catch(console.error);
-    });
-
-    it("check switch (break; in one line)", (done) => {
-        readFile("./example/switchBreakInOneLine.c")
-            .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
-            .then((res) => {
-                expect(res).to.equal(String(fs.readFileSync("./example/switchBreakInOneLine.shorten")));
-                done();
-            })
-            .catch(console.error);
-    });
-
+    for (const testName in shortenMap) {
+        // test single execute
+        it(testName, (done) => {
+            readFile(shortenMap[testName].c)
+                .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
+                .then((res) => {
+                    expect(res).to.equal(String(fs.readFileSync(shortenMap[testName].shorten)));
+                    done();
+                })
+                .catch(console.error);
+        });
+    }
 
 });
