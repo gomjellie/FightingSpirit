@@ -42,10 +42,24 @@ describe("fighting-spirit", function () {
     };
 
     for (const testName in shortenMap) {
-        // test single execute
-        it(testName, (done) => {
+        // run once
+        it(`${testName} (run once)`, (done) => {
             readFile(shortenMap[testName].c)
                 .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
+                .then((res) => {
+                    expect(res).to.equal(String(fs.readFileSync(shortenMap[testName].shorten)));
+                    done();
+                })
+                .catch(console.error);
+        });
+    }
+
+    for (const testName in shortenMap) {
+        // run twice
+        it(`${testName} (run twice)`, (done) => {
+            readFile(shortenMap[testName].c)
+                .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
+                .then((onceCompiled) => fightingSpirit.c2f(onceCompiled, {shorten: true, overwrite: false }))
                 .then((res) => {
                     expect(res).to.equal(String(fs.readFileSync(shortenMap[testName].shorten)));
                     done();
