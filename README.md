@@ -63,13 +63,35 @@ basically it's all you need to do but there's more options
 
 ### --outDir
 
-not finished
+Not yet implemented
+
+~~Redirect output structure to the directory.~~
 
 ### --no-overwrite
 
 with this option, literally it will not overwrite your source
 
 but it will make new file(extension named .cf, .hf) and write.
+
+### --no-shorten
+
+with this option, seperate closing brace and semicolon
+
+for example,
+
+without this option 
+
+```c
+                           ;
+                           }
+                           }
+``` 
+
+but without this option(default)
+
+```c
+                           ;}}
+```
 
 ### --help
 
