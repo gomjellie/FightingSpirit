@@ -20,7 +20,7 @@ describe("fighting-spirit", function () {
             shorten: "./example/guguFunction.shorten",
         },
         "check hello World": {
-            c: "./example/helloworld.c",
+            c: "./example/helloWorld.c",
             shorten: "./example/helloWorld.shorten",
         },
         "check line comment": {
