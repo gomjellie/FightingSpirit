@@ -51,7 +51,7 @@ describe("fighting-spirit", function () {
             .catch(console.error);
     });
 
-    it("check longComment.c -> longComment.shorten", (done) => {
+    it("check /* */", (done) => {
         readFile("./example/longComment.c")
             .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
             .then((res) => {
@@ -60,4 +60,26 @@ describe("fighting-spirit", function () {
             })
             .catch(console.error);
     });
+
+    it("check switch (break; in other line)", (done) => {
+        readFile("./example/switch.c")
+            .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
+            .then((res) => {
+                expect(res).to.equal(String(fs.readFileSync("./example/switch.shorten")));
+                done();
+            })
+            .catch(console.error);
+    });
+
+    it("check switch (break; in one line)", (done) => {
+        readFile("./example/switchBreakInOneLine.c")
+            .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
+            .then((res) => {
+                expect(res).to.equal(String(fs.readFileSync("./example/switchBreakInOneLine.shorten")));
+                done();
+            })
+            .catch(console.error);
+    });
+
+
 });
