@@ -51,6 +51,10 @@ describe("fighting-spirit", function () {
             c: "./example/doWhile.c",
             fight: "./example/doWhile.fight.c",
         },
+        "check if condition": {
+            c: "./example/if.c",
+            fight: "./example/if.fight.c",
+        },
     };
 
     for (const testName in shortenMap) {
