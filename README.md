@@ -51,13 +51,23 @@ npm install fighting-spirit -g
 
 you might need to install node first (if you don't have it yet)
 
-### Run
+## Run
+
+Usage: fight [options] [file...]
 
 ```sh
 fight
 ```
 
 basically it's all you need to do but there's more options
+
+## args
+
+[file...] is optional, if it's empty it will search reculsively every sources from working directory
+
+```sh
+fight ./source1.c source2.c
+```
 
 ## options
 
