@@ -42,7 +42,15 @@ describe("fighting-spirit", function () {
         "check brace opening style": {
             c: "./example/openingBraceStyle.c",
             fight: "./example/openingBraceStyle.fight.c",
-        }
+        },
+        "check single while loop": {
+            c: "./example/while.c",
+            fight: "./example/while.fight.c",
+        },
+        "check single do while loop": {
+            c: "./example/doWhile.c",
+            fight: "./example/doWhile.fight.c",
+        },
     };
 
     for (const testName in shortenMap) {
