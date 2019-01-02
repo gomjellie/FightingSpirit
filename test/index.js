@@ -13,32 +13,36 @@ describe("fighting-spirit", function () {
     const shortenMap = {
         "check double for loop": {
             c: "./example/gugu.c",
-            shorten: "./example/gugu.shorten",
+            fight: "./example/gugu.fight.c",
         },
         "check function declaration": {
             c: "./example/guguFunction.c",
-            shorten: "./example/guguFunction.shorten",
+            fight: "./example/guguFunction.fight.c",
         },
         "check hello World": {
             c: "./example/helloWorld.c",
-            shorten: "./example/helloWorld.shorten",
+            fight: "./example/helloWorld.fight.c",
         },
         "check line comment": {
             c: "./example/lineComment.c",
-            shorten: "./example/lineComment.shorten",
+            fight: "./example/lineComment.fight.c",
         },
         "check long comment": {
             c: "./example/longComment.c",
-            shorten: "./example/longComment.shorten",
+            fight: "./example/longComment.fight.c",
         },
         "check switch (break; in another line)": {
             c: "./example/switch.c",
-            shorten: "./example/switch.shorten",
+            fight: "./example/switch.fight.c",
         },
         "check switch (break; in a line)": {
             c: "./example/switchBreakInOneLine.c",
-            shorten: "./example/switchBreakInOneLine.shorten",
+            fight: "./example/switchBreakInOneLine.fight.c",
         },
+        "check brace opening style": {
+            c: "./example/openingBraceStyle.c",
+            fight: "./example/openingBraceStyle.fight.c",
+        }
     };
 
     for (const testName in shortenMap) {
@@ -47,7 +51,7 @@ describe("fighting-spirit", function () {
             readFile(shortenMap[testName].c)
                 .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
                 .then((res) => {
-                    expect(res).to.equal(String(fs.readFileSync(shortenMap[testName].shorten)));
+                    expect(res).to.equal(String(fs.readFileSync(shortenMap[testName].fight)));
                     done();
                 })
                 .catch(console.error);
@@ -61,7 +65,7 @@ describe("fighting-spirit", function () {
                 .then((cCode) => fightingSpirit.c2f(cCode, { shorten: true, overwrite: false }))
                 .then((onceCompiled) => fightingSpirit.c2f(onceCompiled, {shorten: true, overwrite: false }))
                 .then((res) => {
-                    expect(res).to.equal(String(fs.readFileSync(shortenMap[testName].shorten)));
+                    expect(res).to.equal(String(fs.readFileSync(shortenMap[testName].fight)));
                     done();
                 })
                 .catch(console.error);
