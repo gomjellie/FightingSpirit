@@ -55,6 +55,14 @@ describe("fighting-spirit", function () {
             c: "./example/if.c",
             fight: "./example/if.fight.c",
         },
+        // "check struct": {
+        //     c: "./example/struct.c",
+        //     fight: "./example/struct.fight.c",
+        // },
+        // "check typedef struct": {
+        //     c: "./example/typedefStruct.c",
+        //     fight: "./example/typedefStruct.c",
+        // },
     };
 
     for (const testName in shortenMap) {

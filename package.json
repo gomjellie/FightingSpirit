@@ -1,6 +1,6 @@
 {
   "name": "fighting-spirit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "put brace, semicolon away from your code!",
   "main": "../FightingSpirit/lib/index.js",
   "scripts": {

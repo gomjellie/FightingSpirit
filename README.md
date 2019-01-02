@@ -4,7 +4,7 @@
 
 put brace, semicolon away from your code!
 
-![투혼.scx](DOCS/img/FightingSpirit.jpeg)
+![투혼.scx](DOCS/img/terminal_demo.gif)
 
 ## what is it?
 
