@@ -91,6 +91,7 @@ describe('CParser', () => {
       assert(program.declarations[0].type === 'FunctionDefinition');
       expect(
         program.declarations[0].declarator?.directDeclarator.parameters
+          ?.parameters
       ).toHaveLength(2);
     });
   });

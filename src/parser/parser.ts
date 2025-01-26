@@ -46,12 +46,13 @@ export class CParser {
     this.currentToken = tokens[0];
   }
 
-  private advance(): void {
+  private advance(): boolean {
     this.position++;
     this.currentToken =
       this.position < this.tokens.length
         ? this.tokens[this.position]
         : this.tokens[this.tokens.length - 1];
+    return this.currentToken.type !== TokenType.EOF;
   }
 
   private peek(offset: number = 1): Token | undefined {
