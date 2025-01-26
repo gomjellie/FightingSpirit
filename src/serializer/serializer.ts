@@ -300,6 +300,16 @@ export class CSerializer {
         return this.serializeIterationStatement(node);
       case 'JumpStatement':
         return this.serializeJumpStatement(node);
+      case 'GotoStatement':
+        return `goto ${node.label};`;
+      case 'ContinueStatement':
+        return 'continue;';
+      case 'BreakStatement':
+        return 'break;';
+      case 'ReturnStatement':
+        return node.expression
+          ? `return ${this.serializeExpression(node.expression)};`
+          : 'return;';
       default:
         return '';
     }
