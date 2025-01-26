@@ -96,28 +96,25 @@ export class CParser {
 
   private parseExternalDeclaration(): ExternalDeclaration {
     const specifiers = this.parseDeclarationSpecifiers();
+
+    // Check if this is a declaration without declarators
+    if (this.currentToken.value === ';') {
+      this.advance();
+      return {
+        type: 'Declaration',
+        specifiers,
+        declarators: [],
+      };
+    }
+
     const declarator = this.parseDeclarator();
 
-    if (this.currentToken.value === '{') {
-      // Function definition
-      const declarations: Declaration[] = [];
-      while (this.currentToken.value !== '{') {
-        declarations.push(this.parseDeclaration());
-      }
-      const body = this.parseCompoundStatement();
-
-      return {
-        type: 'FunctionDefinition',
-        specifiers,
-        declarator,
-        declarations,
-        body,
-      };
-    } else {
-      // Declaration
+    // If we see a comma or semicolon, this is a declaration
+    if (this.currentToken.value === ',' || this.currentToken.value === ';') {
       const declarators = [
         { type: 'InitDeclarator', declarator } as InitDeclarator,
       ];
+
       while (this.currentToken.value === ',') {
         this.advance();
         declarators.push({
@@ -125,6 +122,7 @@ export class CParser {
           declarator: this.parseDeclarator(),
         });
       }
+
       this.expect(TokenType.PUNCTUATOR, ';');
 
       return {
@@ -133,6 +131,21 @@ export class CParser {
         declarators,
       };
     }
+
+    // If we see an opening brace, this is a function definition
+    if (this.currentToken.value === '{') {
+      const body = this.parseCompoundStatement();
+
+      return {
+        type: 'FunctionDefinition',
+        specifiers,
+        declarator,
+        declarations: [],
+        body,
+      };
+    }
+
+    throw new Error(`Unexpected token: ${this.currentToken.value}`);
   }
 
   private parseDeclarationSpecifiers(): DeclarationSpecifier[] {
