@@ -137,27 +137,32 @@ export class CLexer {
     let value = this.currentChar || '';
     this.advance();
 
-    // Try to form two-character operators
-    if (this.currentChar) {
-      const combined = value + this.currentChar;
-      if (Operators.has(combined)) {
-        value = combined;
-        this.advance();
+    // Handle ellipsis operator first
+    if (value === '.' && this.currentChar === '.' && this.peek() === '.') {
+      this.advance(); // second dot
+      this.advance(); // third dot
+      value = '...';
+    } else {
+      // Try to form two-character operators or punctuators
+      if (this.currentChar) {
+        const combined = value + this.currentChar;
+        if (Operators.has(combined) || Punctuators.has(combined)) {
+          value = combined;
+          this.advance();
 
-        // Try to form three-character operators
-        if (this.currentChar) {
-          const triple = value + this.currentChar;
-          if (Operators.has(triple)) {
-            value = triple;
-            this.advance();
+          // Try to form three-character operators or punctuators
+          if (this.currentChar) {
+            const triple = value + this.currentChar;
+            if (Operators.has(triple) || Punctuators.has(triple)) {
+              value = triple;
+              this.advance();
+            }
           }
         }
       }
     }
 
-    const type = Operators.has(value)
-      ? TokenType.OPERATOR
-      : Punctuators.has(value)
+    const type = Punctuators.has(value)
       ? TokenType.PUNCTUATOR
       : TokenType.OPERATOR;
 
