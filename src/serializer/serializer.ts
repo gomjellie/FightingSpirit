@@ -142,7 +142,7 @@ export class CSerializer {
       .join('\n');
     this.indentLevel--;
 
-    return `${kind}${identifier} {\n${declarations}\n}`;
+    return `${kind}${identifier} {\n${declarations}\n${this.indent()}}`;
   }
 
   private serializeStructDeclaration(node: StructDeclaration): string {
