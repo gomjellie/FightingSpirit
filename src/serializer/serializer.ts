@@ -79,6 +79,10 @@ export class CSerializer {
     const declarators = node.declarators
       .map((decl) => this.serializeInitDeclarator(decl))
       .join(', ');
+
+    if (!declarators) {
+      return `${specifiers};`;
+    }
     return `${specifiers} ${declarators};`;
   }
 
@@ -114,9 +118,11 @@ export class CSerializer {
       return `${kind}${identifier}`;
     }
 
+    this.indentLevel++;
     const declarations = node.declarations
       .map((decl) => this.indent() + this.serializeStructDeclaration(decl))
       .join('\n');
+    this.indentLevel--;
 
     return `${kind}${identifier} {\n${declarations}\n}`;
   }
