@@ -72,6 +72,24 @@ export class CSerializer {
     } ${body}`;
   }
 
+  private normalizePointerStyle(code: string): string {
+    return (
+      code
+        // const나 volatile 같은 한정자들(qualifiers)을 임시로 표시
+        // .replace(/\b(const|volatile)\b/g, '@$1@')
+
+        // * 앞의 공백 제거 및 뒤의 공백 추가
+        // 1. 먼저 * 주변의 모든 공백 제거
+        .replace(/\s*\*\s*/g, '*')
+
+        // 2. * 뒤에 공백 추가 (단, 다음 *가 오는 경우는 제외)
+        .replace(/\*(?!\*)/g, '* ')
+
+      // 임시 표시했던 한정자들 복원
+      // .replace(/@(const|volatile)@/g, '$1')
+    );
+  }
+
   private serializeDeclaration(node: Declaration): string {
     const specifiers = node.specifiers
       .map((spec) => this.serializeDeclarationSpecifier(spec))
@@ -83,7 +101,7 @@ export class CSerializer {
     if (!declarators) {
       return `${specifiers};`;
     }
-    return `${specifiers} ${declarators};`;
+    return this.normalizePointerStyle(`${specifiers} ${declarators};`);
   }
 
   private serializeDeclarationSpecifier(node: DeclarationSpecifier): string {
@@ -185,7 +203,7 @@ export class CSerializer {
   private serializePointer(node: Pointer): string {
     const qualifiers = node.qualifiers.map((q) => q.qualifier).join(' ');
     const pointer = node.pointer ? this.serializePointer(node.pointer) : '';
-    return `*${qualifiers ? ' ' + qualifiers : ''}${pointer}`;
+    return `*${qualifiers ? ' ' + qualifiers + ' ' : ''}${pointer}`;
   }
 
   private serializeDirectDeclarator(node: DirectDeclarator): string {

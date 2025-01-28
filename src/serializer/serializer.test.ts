@@ -105,17 +105,17 @@ describe('CSerializer', () => {
 
   describe('pointers', () => {
     test('serializes pointer declaration', () => {
-      const code = 'int *ptr;';
+      const code = 'int* ptr;';
       expect(roundTrip(code)).toBe(code);
     });
 
     test('serializes multiple pointer levels', () => {
-      const code = 'int **ptr;';
+      const code = 'int** ptr;';
       expect(roundTrip(code)).toBe(code);
     });
 
     test('serializes pointer with type qualifiers', () => {
-      const code = 'int * const * volatile ptr;';
+      const code = 'int* const* volatile ptr;';
       expect(roundTrip(code)).toBe(code);
     });
   });
@@ -124,7 +124,7 @@ describe('CSerializer', () => {
     test('serializes complete program', () => {
       const code = `#include <stdio.h>
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   int x = 42;
   if (x > 0) {
     printf("Positive\n");
