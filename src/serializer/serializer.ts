@@ -149,7 +149,7 @@ export class CSerializer {
       ? this.serializeDeclarator(node.declarator)
       : '';
     const bitfield = node.bitfield
-      ? `: ${this.serializeExpression(node.bitfield)}`
+      ? ` : ${this.serializeExpression(node.bitfield)}`
       : '';
     return declarator + bitfield;
   }
