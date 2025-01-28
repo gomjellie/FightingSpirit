@@ -281,6 +281,12 @@ export class CSerializer {
       .map((stmt) => this.indent() + this.serializeStatement(stmt))
       .join('\n');
     this.indentLevel--;
+
+    // Handle empty function body
+    if (!declarations && !statements) {
+      return '{}';
+    }
+
     return `{\n${declarations}${
       declarations && statements ? '\n' : ''
     }${statements}\n${this.indent()}}`;

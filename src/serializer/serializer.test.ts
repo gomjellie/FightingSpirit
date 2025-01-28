@@ -43,8 +43,7 @@ describe('CSerializer', () => {
     });
 
     test('serializes function with multiple parameters', () => {
-      const code = `void test(int a, float b, char c) {
-}`;
+      const code = `void test(int a, float b, char c) {}`;
       expect(roundTrip(code)).toBe(code);
     });
   });
