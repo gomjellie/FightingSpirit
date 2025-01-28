@@ -459,10 +459,13 @@ export class CParser {
     let declarator: Declarator | undefined;
     let abstractDeclarator: AbstractDeclarator | undefined;
 
-    if (this.currentToken.type === TokenType.IDENTIFIER) {
+    if (
+      this.currentToken.type === TokenType.IDENTIFIER ||
+      this.currentToken.value === '*'
+    ) {
       declarator = this.parseDeclarator();
     } else if (
-      this.currentToken.value === '*' ||
+      this.currentToken.value === '[' ||
       this.currentToken.value === '('
     ) {
       abstractDeclarator = this.parseAbstractDeclarator();

@@ -94,6 +94,67 @@ describe('CParser', () => {
           ?.parameters
       ).toHaveLength(2);
     });
+
+    it('should parse function with parameter(int argc, char** argv)', () => {
+      const tokens = [
+        { type: TokenType.KEYWORD, value: 'int' },
+        { type: TokenType.IDENTIFIER, value: 'main' },
+        { type: TokenType.PUNCTUATOR, value: '(' },
+        { type: TokenType.KEYWORD, value: 'int' },
+        { type: TokenType.IDENTIFIER, value: 'argc' },
+        { type: TokenType.PUNCTUATOR, value: ',' },
+        { type: TokenType.KEYWORD, value: 'char' },
+        { type: TokenType.PUNCTUATOR, value: '*' },
+        { type: TokenType.PUNCTUATOR, value: '*' },
+        { type: TokenType.IDENTIFIER, value: 'argv' },
+        { type: TokenType.PUNCTUATOR, value: ')' },
+        { type: TokenType.PUNCTUATOR, value: '{' },
+        { type: TokenType.PUNCTUATOR, value: '}' },
+        { type: TokenType.EOF, value: 'EOF' },
+      ];
+
+      const parser = new CParser(tokens as Token[]);
+      const program = parser.parse();
+      expect(program.declarations[0]).toMatchObject({
+        type: 'FunctionDefinition',
+        specifiers: [{ type: 'TypeSpecifier', specifier: 'int' }],
+        declarator: {
+          type: 'Declarator',
+          directDeclarator: {
+            type: 'DirectDeclarator',
+            identifier: 'main',
+            parameters: {
+              type: 'ParameterTypeList',
+              parameters: [
+                {
+                  type: 'ParameterDeclaration',
+                  specifiers: [{ type: 'TypeSpecifier', specifier: 'int' }],
+                  declarator: {
+                    type: 'Declarator',
+                    directDeclarator: {
+                      type: 'DirectDeclarator',
+                      identifier: 'argc',
+                    },
+                  },
+                },
+                {
+                  type: 'ParameterDeclaration',
+                  specifiers: [{ type: 'TypeSpecifier', specifier: 'char' }],
+                  declarator: {
+                    type: 'Declarator',
+                    pointer: { type: 'Pointer', qualifiers: [] },
+                    directDeclarator: {
+                      type: 'DirectDeclarator',
+                      identifier: 'argv',
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+      });
+    });
   });
 
   describe('Type Specifiers', () => {
@@ -152,6 +213,70 @@ describe('CParser', () => {
       expect(
         program.declarations[0].specifiers[0].specifier.enumerators
       ).toHaveLength(3);
+    });
+  });
+
+  describe('Pointers', () => {
+    it('should parse pointer declaration', () => {
+      const tokens = [
+        { type: TokenType.KEYWORD, value: 'int' },
+        { type: TokenType.PUNCTUATOR, value: '*' },
+        { type: TokenType.IDENTIFIER, value: 'ptr' },
+        { type: TokenType.PUNCTUATOR, value: ';' },
+        { type: TokenType.EOF, value: 'EOF' },
+      ];
+      const parser = new CParser(tokens as Token[]);
+      const program = parser.parse();
+
+      expect(program.declarations[0]).toMatchObject({
+        type: 'Declaration',
+        specifiers: [{ type: 'TypeSpecifier', specifier: 'int' }],
+        declarators: [
+          {
+            type: 'InitDeclarator',
+            declarator: {
+              type: 'Declarator',
+              pointer: { type: 'Pointer', qualifiers: [] },
+              directDeclarator: { type: 'DirectDeclarator', identifier: 'ptr' },
+            },
+          },
+        ],
+      });
+    });
+
+    it('should parse double pointer declaration', () => {
+      const tokens = [
+        { type: TokenType.KEYWORD, value: 'int' },
+        { type: TokenType.PUNCTUATOR, value: '*' },
+        { type: TokenType.PUNCTUATOR, value: '*' },
+        { type: TokenType.IDENTIFIER, value: 'doublePtr' },
+        { type: TokenType.PUNCTUATOR, value: ';' },
+        { type: TokenType.EOF, value: 'EOF' },
+      ];
+      const parser = new CParser(tokens as Token[]);
+      const program = parser.parse();
+
+      expect(program.declarations[0]).toMatchObject({
+        type: 'Declaration',
+        specifiers: [{ type: 'TypeSpecifier', specifier: 'int' }],
+        declarators: [
+          {
+            type: 'InitDeclarator',
+            declarator: {
+              type: 'Declarator',
+              pointer: {
+                type: 'Pointer',
+                qualifiers: [],
+                pointer: { type: 'Pointer', qualifiers: [] },
+              },
+              directDeclarator: {
+                type: 'DirectDeclarator',
+                identifier: 'doublePtr',
+              },
+            },
+          },
+        ],
+      });
     });
   });
 
