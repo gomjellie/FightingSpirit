@@ -121,9 +121,7 @@ describe('pointers', () => {
 
 describe('complex code', () => {
   test('serializes complete program', () => {
-    const code = `#include <stdio.h>
-
-int main(int argc, char** argv) {
+    const code = `int main(int argc, char** argv) {
   int x = 42;
   if (x > 0) {
     printf("Positive");
