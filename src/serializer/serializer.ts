@@ -420,6 +420,10 @@ export class CSerializer {
 
   private serializeExpression(node: Expression): string {
     if ('value' in node && node.value !== undefined) {
+      if ('kind' in node && node.kind === 'string') {
+        return `"${node.value}"`;
+      }
+
       return node.value.toString();
     }
 

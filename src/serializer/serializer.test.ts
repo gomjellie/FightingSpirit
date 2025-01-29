@@ -126,9 +126,9 @@ describe('complex code', () => {
 int main(int argc, char** argv) {
   int x = 42;
   if (x > 0) {
-    printf("Positive\n");
+    printf("Positive");
   } else {
-    printf("Non-positive\n");
+    printf("Non-positive");
   }
   return 0;
 }`;
