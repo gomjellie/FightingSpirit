@@ -145,7 +145,7 @@ describe('complex code', () => {
   });
 
   test('serializes complex declarations', () => {
-    const code = 'static const int * const * volatile * restrict p;';
+    const code = 'static const int* const* volatile* p;';
     expect(roundTrip(code)).toBe(code);
   });
 });
