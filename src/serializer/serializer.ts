@@ -438,6 +438,14 @@ export class CSerializer {
       return `${left} ${node.operator} ${right}`;
     }
 
+    if ('operator' in node && node.operator === 'call') {
+      const callee = this.serializeExpression(node.callee);
+      const args = node.arguments
+        ? node.arguments.map((arg) => this.serializeExpression(arg)).join(', ')
+        : '';
+      return `${callee}(${args})`;
+    }
+
     return '';
   }
 }
