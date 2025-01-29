@@ -242,11 +242,15 @@ export class CSerializer {
       .map((spec) => this.serializeDeclarationSpecifier(spec))
       .join(' ');
     if (node.declarator) {
-      return `${specifiers} ${this.serializeDeclarator(node.declarator)}`;
+      return this.normalizePointerStyle(
+        `${specifiers} ${this.serializeDeclarator(node.declarator)}`
+      );
     } else if (node.abstractDeclarator) {
-      return `${specifiers} ${this.serializeAbstractDeclarator(
-        node.abstractDeclarator
-      )}`;
+      return this.normalizePointerStyle(
+        `${specifiers} ${this.serializeAbstractDeclarator(
+          node.abstractDeclarator
+        )}`
+      );
     }
     return specifiers;
   }
