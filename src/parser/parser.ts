@@ -543,6 +543,10 @@ export class CParser {
       return this.parseLabeledStatement();
     }
 
+    if (this.currentToken.value === '{') {
+      return this.parseCompoundStatement();
+    }
+
     return this.parseExpressionStatement();
   }
 
