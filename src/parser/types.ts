@@ -224,20 +224,24 @@ type PrimaryExpression = {
 
 export type Expression =
   | PrimaryExpression
-  | ({
-      type: 'Expression';
-    } & (
+  | (
       | {
+          type: 'Expression';
+          // UnaryExpression
           operator: '++' | '--';
-          operand?: Expression;
+          operand: Expression;
           prefix: boolean;
         }
       | {
+          type: 'Expression';
+          // UnaryExpression
           operator: '+' | '-' | '!' | '~' | '*' | '&';
-          operand?: Expression;
+          operand: Expression;
           prefix: boolean;
         }
       | {
+          type: 'Expression';
+          // UnaryExpression
           operator: 'sizeof';
           operand:
             | {
@@ -247,6 +251,7 @@ export type Expression =
             | Expression;
         }
       | {
+          type: 'Expression';
           operator: 'cast';
           typeName: {
             specifiers: (TypeSpecifier | TypeQualifier)[];
@@ -255,6 +260,7 @@ export type Expression =
           expression: Expression;
         }
       | {
+          type: 'Expression';
           // assignment operators
           operator:
             | '='
@@ -272,134 +278,147 @@ export type Expression =
           right: Expression;
         }
       | {
+          type: 'Expression';
           // Multiplicative operators
           operator: '*' | '/' | '%';
           left: Expression;
           right: Expression;
         }
       | {
+          type: 'Expression';
           operator: ',';
           left: Expression;
           right: Expression;
         }
       | {
+          type: 'Expression';
           operator: '?:';
           condition: Expression;
           consequent: Expression;
           alternate: Expression;
         }
       | {
+          type: 'Expression';
           operator: '||';
           left: Expression;
           right: Expression;
         }
       | {
+          type: 'Expression';
           operator: '<<' | '>>';
           operand?: Expression;
         }
       | {
+          type: 'Expression';
           operator: '<' | '>' | '<=' | '>=';
           operand?: Expression;
         }
       | {
           // LogicalAndExpression
+          type: 'Expression';
           operator: '&&';
           left: Expression;
           right: Expression;
         }
       | {
           // InclusiveOrExpression
+          type: 'Expression';
           operator: '|';
           left: Expression;
           right: Expression;
         }
       | {
           // ExclusiveOrExpression
+          type: 'Expression';
           operator: '^';
           left: Expression;
           right: Expression;
         }
       | {
           // EqualityExpression
+          type: 'Expression';
           operator: '==' | '!=';
           left: Expression;
           right: Expression;
         }
       | {
           // AndExpression
+          type: 'Expression';
           operator: '&';
           left: Expression;
           right: Expression;
         }
       | {
           // ShiftExpression
+          type: 'Expression';
           operator: '<<' | '>>';
           left: Expression;
           right: Expression;
         }
       | {
           // RelationalExpression
+          type: 'Expression';
           operator: '<' | '>' | '<=' | '>=';
           left: Expression;
           right: Expression;
         }
       | {
           // AdditiveExpression
+          type: 'Expression';
           operator: '+' | '-';
           left: Expression;
           right: Expression;
         }
       | {
           // MultiplicativeExpression
+          type: 'Expression';
           operator: '*' | '/' | '%';
           left: Expression;
           right: Expression;
         }
       | {
           // UnaryExpression
+          type: 'Expression';
           operator: '+' | '-';
           operand: Expression;
         }
       | {
-          // UnaryExpression
-          operator: '++' | '--';
-          operand: Expression;
-        }
-      | {
-          // UnaryExpression
-          operator: '!' | '~' | '*' | '&';
-          operand: Expression;
-        }
-      | {
           // PostfixExpression
+          type: 'Expression';
           operator: '[]';
           array: Expression;
           index: Expression;
         }
       | {
           // PostfixExpression
+          type: 'Expression';
           operator: '.' | '->';
           object: Expression;
           member: string;
         }
       | {
           // PostfixExpression
+          type: 'Expression';
           operator: '++' | '--';
           operand: Expression;
         }
       | {
+          // CallExpression
+          type: 'Expression';
           operator: 'call';
           callee: Expression;
           arguments: Expression[];
         }
       | {
           // PrimaryExpression
+          type: 'Expression';
           operator: '[';
           operand: Expression;
         }
       | {
           // PrimaryExpression
+          type: 'Expression';
           operator: '++' | '--';
           operand: Expression;
         }
-    ));
+    );

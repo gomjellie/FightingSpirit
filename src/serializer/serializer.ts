@@ -436,23 +436,75 @@ export class CSerializer {
       return node.value.toString();
     }
 
-    if (
-      'operator' in node &&
-      'left' in node &&
-      'right' in node &&
-      node.operator
-    ) {
-      const left = node.left ? this.serializeExpression(node.left) : '';
-      const right = node.right ? this.serializeExpression(node.right) : '';
-      return `${left} ${node.operator} ${right}`;
-    }
+    if ('operator' in node) {
+      // Handle unary operators
+      if (
+        'operand' in node &&
+        (node.operator === 'sizeof' ||
+          node.operator === '++' ||
+          node.operator === '--' ||
+          node.operator === '&' ||
+          node.operator === '*' ||
+          node.operator === '+' ||
+          node.operator === '-' ||
+          node.operator === '~' ||
+          node.operator === '!')
+      ) {
+        if ('prefix' in node && node.prefix) {
+          return `${node.operator}${this.serializeExpression(node.operand)}`;
+        } else {
+          if ('specifiers' in node.operand) {
+            return `${node.operand.specifiers.map((spec) =>
+              this.serializeDeclarationSpecifier(spec)
+            )}${node.operator}`;
+          }
+          return `${this.serializeExpression(node.operand)}${node.operator}`;
+        }
+      }
 
-    if ('operator' in node && node.operator === 'call') {
-      const callee = this.serializeExpression(node.callee);
-      const args = node.arguments
-        ? node.arguments.map((arg) => this.serializeExpression(arg)).join(', ')
-        : '';
-      return `${callee}(${args})`;
+      // Handle function calls
+      if ('operator' in node && node.operator === 'call') {
+        const callee = this.serializeExpression(node.callee);
+        const args = node.arguments
+          ? node.arguments
+              .map((arg) => this.serializeExpression(arg))
+              .join(', ')
+          : '';
+        return `${callee}(${args})`;
+      }
+
+      // Handle array subscript
+      if (node.operator === '[]') {
+        const array = this.serializeExpression(node.array);
+        const index = this.serializeExpression(node.index);
+        return `${array}[${index}]`;
+      }
+
+      // Handle member access
+      if (node.operator === '.' || node.operator === '->') {
+        const object = this.serializeExpression(node.object);
+        return `${object}${node.operator}${node.member}`;
+      }
+
+      // Handle cast expressions
+      if (node.operator === 'cast') {
+        return `(${node.typeName})${this.serializeExpression(node.expression)}`;
+      }
+
+      // Handle conditional (ternary) operator
+      if (node.operator === '?:') {
+        const condition = this.serializeExpression(node.condition);
+        const consequent = this.serializeExpression(node.consequent);
+        const alternate = this.serializeExpression(node.alternate);
+        return `${condition} ? ${consequent} : ${alternate}`;
+      }
+
+      // Handle binary operators
+      if ('left' in node && 'right' in node) {
+        const left = node.left ? this.serializeExpression(node.left) : '';
+        const right = node.right ? this.serializeExpression(node.right) : '';
+        return `${left} ${node.operator} ${right}`;
+      }
     }
 
     return '';

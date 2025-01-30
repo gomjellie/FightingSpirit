@@ -1,7 +1,7 @@
 import { Formatter } from './index';
 
 describe('complex formatting', () => {
-  test.skip('formats nested for loops correctly', () => {
+  test('formats nested for loops correctly', () => {
     const code = `int main() {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 10; j++) {
