@@ -36,6 +36,9 @@ export class CSerializer {
   private indentLevel: number = 0;
   private indentString: string = '  ';
 
+  public constructor(option?: { indentation: number }) {
+    this.indentString = ' '.repeat(option?.indentation ?? 2);
+  }
   private indent(): string {
     return this.indentString.repeat(this.indentLevel);
   }
@@ -395,13 +398,15 @@ export class CSerializer {
         )} while (${this.serializeExpression(node.condition!)});`;
       case 'for':
         const init = node.initialization
-          ? this.serializeExpression(node.initialization)
+          ? node.initialization.type === 'Expression'
+            ? `${this.serializeExpression(node.initialization)};`
+            : `${this.serializeDeclaration(node.initialization)}`
           : '';
         const cond = node.condition
           ? this.serializeExpression(node.condition)
           : '';
         const update = node.update ? this.serializeExpression(node.update) : '';
-        return `for (${init}; ${cond}; ${update}) ${this.serializeStatement(
+        return `for (${init} ${cond}; ${update}) ${this.serializeStatement(
           node.body
         )}`;
     }

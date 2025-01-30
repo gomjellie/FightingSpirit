@@ -227,6 +227,7 @@ link: https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%
 <iteration-statement> ::= while ( <expression> ) <statement>
   | do <statement> while ( <expression> ) ;
   | for ( {<expression>}? ; {<expression>}? ; {<expression>}? ) <statement>
+  | for ( {declaration} {<expression>}? ; {<expression>}? ) <statement>
 
 <jump-statement> ::= goto <identifier> ;
   | continue ;

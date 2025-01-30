@@ -673,9 +673,17 @@ export class CParser {
 
     let initialization;
     if (this.currentToken.value !== ';') {
-      initialization = this.parseExpression();
+      // check if current token is declaration specifier
+      if (
+        this.isDeclarationSpecifier() ||
+        this.currentToken.type === TokenType.IDENTIFIER
+      ) {
+        initialization = this.parseDeclaration();
+      } else {
+        initialization = this.parseExpression();
+        this.expect(TokenType.PUNCTUATOR, ';');
+      }
     }
-    this.expect(TokenType.PUNCTUATOR, ';');
 
     let condition;
     if (this.currentToken.value !== ';') {

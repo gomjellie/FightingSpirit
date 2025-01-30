@@ -185,7 +185,7 @@ export interface SelectionStatement extends ASTNode {
 export interface IterationStatement extends ASTNode {
   type: 'IterationStatement';
   kind: 'while' | 'do-while' | 'for';
-  initialization?: Expression;
+  initialization?: Expression | Declaration;
   condition?: Expression;
   update?: Expression;
   body: Statement;

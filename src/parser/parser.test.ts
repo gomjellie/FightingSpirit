@@ -277,6 +277,103 @@ describe('Pointers', () => {
   });
 });
 
+describe('Loop Statements', () => {
+  it('should parse for loop', () => {
+    const tokens = [
+      { type: TokenType.KEYWORD, value: 'void' },
+      { type: TokenType.IDENTIFIER, value: 'test' },
+      { type: TokenType.PUNCTUATOR, value: '(' },
+      { type: TokenType.PUNCTUATOR, value: ')' },
+      { type: TokenType.PUNCTUATOR, value: '{' },
+      { type: TokenType.KEYWORD, value: 'for' },
+      { type: TokenType.PUNCTUATOR, value: '(' },
+      { type: TokenType.KEYWORD, value: 'int' },
+      { type: TokenType.IDENTIFIER, value: 'i' },
+      { type: TokenType.OPERATOR, value: '=' },
+      { type: TokenType.INTEGER, value: '0' },
+      { type: TokenType.PUNCTUATOR, value: ';' },
+      { type: TokenType.IDENTIFIER, value: 'i' },
+      { type: TokenType.OPERATOR, value: '<' },
+      { type: TokenType.INTEGER, value: '10' },
+      { type: TokenType.PUNCTUATOR, value: ';' },
+      { type: TokenType.IDENTIFIER, value: 'i' },
+      { type: TokenType.OPERATOR, value: '++' },
+      { type: TokenType.PUNCTUATOR, value: ')' },
+      { type: TokenType.PUNCTUATOR, value: '{' },
+      { type: TokenType.PUNCTUATOR, value: '}' },
+      { type: TokenType.PUNCTUATOR, value: '}' },
+      { type: TokenType.EOF, value: 'EOF' },
+    ];
+    const parser = new CParser(tokens as Token[]);
+    const program = parser.parse();
+
+    assert(program.declarations[0].type === 'FunctionDefinition');
+    expect(program.declarations[0].body.statements[0]).toMatchObject({
+      type: 'IterationStatement',
+      kind: 'for',
+      initialization: expect.any(Object),
+      condition: expect.any(Object),
+      update: expect.any(Object),
+    });
+  });
+
+  it('should parse while loop', () => {
+    const tokens = [
+      { type: TokenType.KEYWORD, value: 'void' },
+      { type: TokenType.IDENTIFIER, value: 'test' },
+      { type: TokenType.PUNCTUATOR, value: '(' },
+      { type: TokenType.PUNCTUATOR, value: ')' },
+      { type: TokenType.PUNCTUATOR, value: '{' },
+      { type: TokenType.KEYWORD, value: 'while' },
+      { type: TokenType.PUNCTUATOR, value: '(' },
+      { type: TokenType.INTEGER, value: '1' },
+      { type: TokenType.PUNCTUATOR, value: ')' },
+      { type: TokenType.PUNCTUATOR, value: '{' },
+      { type: TokenType.PUNCTUATOR, value: '}' },
+      { type: TokenType.PUNCTUATOR, value: '}' },
+      { type: TokenType.EOF, value: 'EOF' },
+    ];
+    const parser = new CParser(tokens as Token[]);
+    const program = parser.parse();
+
+    assert(program.declarations[0].type === 'FunctionDefinition');
+    expect(program.declarations[0].body.statements[0]).toMatchObject({
+      type: 'IterationStatement',
+      kind: 'while',
+      condition: expect.any(Object),
+    });
+  });
+
+  it('should parse do-while loop', () => {
+    const tokens = [
+      { type: TokenType.KEYWORD, value: 'void' },
+      { type: TokenType.IDENTIFIER, value: 'test' },
+      { type: TokenType.PUNCTUATOR, value: '(' },
+      { type: TokenType.PUNCTUATOR, value: ')' },
+      { type: TokenType.PUNCTUATOR, value: '{' },
+      { type: TokenType.KEYWORD, value: 'do' },
+      { type: TokenType.PUNCTUATOR, value: '{' },
+      { type: TokenType.PUNCTUATOR, value: '}' },
+      { type: TokenType.KEYWORD, value: 'while' },
+      { type: TokenType.PUNCTUATOR, value: '(' },
+      { type: TokenType.INTEGER, value: '1' },
+      { type: TokenType.PUNCTUATOR, value: ')' },
+      { type: TokenType.PUNCTUATOR, value: ';' },
+      { type: TokenType.PUNCTUATOR, value: '}' },
+      { type: TokenType.EOF, value: 'EOF' },
+    ];
+    const parser = new CParser(tokens as Token[]);
+    const program = parser.parse();
+
+    assert(program.declarations[0].type === 'FunctionDefinition');
+    expect(program.declarations[0].body.statements[0]).toMatchObject({
+      type: 'IterationStatement',
+      kind: 'do-while',
+      condition: expect.any(Object),
+    });
+  });
+});
+
 describe('Error Handling', () => {
   it('should throw error on missing semicolon', () => {
     const tokens = [

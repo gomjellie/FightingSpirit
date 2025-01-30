@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { FightingSpirit } from './formatter';
+import { Formatter } from './formatter';
 
 export function activate(context: vscode.ExtensionContext) {
   const disposable = vscode.languages.registerDocumentFormattingEditProvider(
@@ -8,7 +8,7 @@ export function activate(context: vscode.ExtensionContext) {
       provideDocumentFormattingEdits(
         document: vscode.TextDocument
       ): vscode.TextEdit[] {
-        const config = vscode.workspace.getConfiguration('fightingSpirit');
+        const config = vscode.workspace.getConfiguration('MILP');
         const space = config.get<number>('space') || 84;
         const enable = config.get<boolean>('enable') ?? true;
 
@@ -17,7 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         const text = document.getText();
-        const formatted = new FightingSpirit({ space }).format(text);
+        const formatted = new Formatter({ space }).format(text);
 
         const fullRange = new vscode.Range(
           document.positionAt(0),
